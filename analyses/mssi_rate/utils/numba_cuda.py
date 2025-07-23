@@ -7,6 +7,7 @@ from numba import cuda
 import math
 import numpy as np
 import uproot as up
+import awkward as ak
 
 coeffs = np.array(
     [
@@ -151,10 +152,6 @@ def calc_dR_phi_cuda(x, y, dt):
         if (phi >= phi_min) and (phi < phi_max):
             return R - perform_poly_cuda(dt, slice)
 
-
-# copy coeffs to cuda shared memory
-cuda.to_device(coeffs)
-
 @cuda.jit
 def perform_poly_cuda(dt, c):
 
@@ -203,7 +200,7 @@ def roi_cuda(s1c, s2, s2c):
 
 
 @cuda.jit
-def process_events_cuda(
+def process_events(
     ss_x,
     ss_y,
     ss_dt,
@@ -261,11 +258,14 @@ def process_events_cuda(
                 cuda.atomic.add(n_fv_roi_mssi, 0, 1)
 
 
-def process_file_cuda(file):
+def process_file(file):
 
     tfile = up.open(file)
     scatters = tfile["Scatters"]
     truth = tfile["RQMCTruth"]
+
+    # copy coeffs to cuda shared memory
+    cuda.to_device(coeffs)
 
     # Read arrays and copy to GPU
     ss_x = cuda.to_device(scatters["ss.x_cm"].array())
@@ -296,7 +296,7 @@ def process_file_cuda(file):
     block_size = 256
     n_blocks = (n_events + block_size - 1) // block_size
 
-    process_events_cuda[n_blocks, block_size](
+    process_events[n_blocks, block_size](
         ss_x,
         ss_y,
         ss_dt,
