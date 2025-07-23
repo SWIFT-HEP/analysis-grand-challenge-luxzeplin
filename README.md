@@ -1,4 +1,4 @@
-# Analysis Grand Challenge - LUX-ZEPLIN
+# ![LZ_Logo](.assets/lz_logo_on_colour.png) Analysis Grand Challenge - LUX-ZEPLIN
 
 Designed as LUX-ZEPLIN (LZ) contribution to [analysis grand challenge](https://github.com/iris-hep/analysis-grand-challenge).
 
