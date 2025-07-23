@@ -1,4 +1,4 @@
-<h1><img src=".assets/lz_logo_on_colour.png" height="40"> Analysis Grand Challenge – LUX-ZEPLIN</h1>
+<h1><img src=".assets/lz_logo_on_colour.png" height="40" style="vertical-align: middle;"> Analysis Grand Challenge – LUX-ZEPLIN</h1>
 
 Designed as LUX-ZEPLIN (LZ) contribution to [analysis grand challenge](https://github.com/iris-hep/analysis-grand-challenge).
 
